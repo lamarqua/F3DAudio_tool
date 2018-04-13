@@ -1,0 +1,9 @@
+.ipynb_checkpoints/
+smalltool/.vs/
+*.dll
+*.pdb
+*.lib
+*.exe
+*.ilk
+*.obj
+*.sln
