@@ -15,6 +15,7 @@
 
 #define CAST(T, x) ((T)(x))
 #define ARRAY_COUNT(x) (sizeof(x)/sizeof((x)[0]))
+#define PI X3DAUDIO_PI
 
 #include "x3daudiovector.cpp"
 #include "helper_funcs.cpp"
@@ -70,26 +71,26 @@ void re_instance_data()
 
     // printf("%X\n\n", SPEAKER_5POINT1 & SPEAKER_5POINT1_SURROUND & SPEAKER_7POINT1_SURROUND & SPEAKER_7POINT1 & ~SPEAKER_2POINT1 & ~SPEAKER_4POINT1);
 
-    for (size_t i = 0; i < ARRAY_COUNT(kChannelConfigs); ++i) {
-     DWORD dwChannelMask = kChannelConfigs[i].channelMask;
-     X3DAudioInitialize(dwChannelMask, X3DAUDIO_SPEED_OF_SOUND, inst);
-     // printf("%08X\n", dwChannelMask);
-     // dump_bytes(&inst, sizeof(inst));
-     printf("%s, %d, ", kChannelConfigs[i].ChannelConfigName,
-        (kChannelConfigs[i].channelMask & SPEAKER_LOW_FREQUENCY) ? 2 : 0);
-     dump_mask_fields(&inst);
-    }
+    // for (size_t i = 0; i < ARRAY_COUNT(kChannelConfigs); ++i) {
+    //  DWORD dwChannelMask = kChannelConfigs[i].channelMask;
+    //  X3DAudioInitialize(dwChannelMask, X3DAUDIO_SPEED_OF_SOUND, inst);
+    //  // printf("%08X\n", dwChannelMask);
+    //  // dump_bytes(&inst, sizeof(inst));
+    //  printf("%s, %d, ", kChannelConfigs[i].ChannelConfigName,
+    //     (kChannelConfigs[i].channelMask & SPEAKER_LOW_FREQUENCY) ? 2 : 0);
+    //  dump_mask_fields(&inst);
+    // }
 
     nl();
 
-    // for (size_t i = 0; i < ARRAY_COUNT(kSpeeds); ++i) {
-    //  DWORD dwChannelMask = SPEAKER_MONO;
-    //  X3DAudioInitialize(dwChannelMask, kSpeeds[i], inst);
-    //  DWORD dwSpeed = *(DWORD*)&kSpeeds[i];
-    //  // printf("speed = %X, %g\n", dwSpeed, kSpeeds[i]);
-    //  // dump_bytes(&inst, sizeof(inst));
-    //  dump_speed_fields(&inst);
-    // }
+    for (size_t i = 0; i < ARRAY_COUNT(kSpeeds); ++i) {
+     DWORD dwChannelMask = SPEAKER_MONO;
+     X3DAudioInitialize(dwChannelMask, kSpeeds[i], inst);
+     DWORD dwSpeed = *(DWORD*)&kSpeeds[i];
+     // printf("speed = %X, %g\n", dwSpeed, kSpeeds[i]);
+     // dump_bytes(&inst, sizeof(inst));
+     dump_speed_fields(&inst);
+    }
 }
 
 #define EXPECT_SE(expr) do {\
@@ -343,12 +344,11 @@ int main(int argc, char* argv[])
 
     UINT32 nEmitterChannels = 1;
     X3DAUDIO_EMITTER emitter = {};
-    emitter.OrientFront = zeroVec;
+    emitter.OrientFront = Vec(0.0f, sinf(3*PI/4), cosf(3*PI/4));
     emitter.OrientTop = zeroVec;
     emitter.ChannelCount = nEmitterChannels;
-    const float PI = X3DAUDIO_PI;
     float angle = 0.0f;
-    emitter.Position = Vec(0.0f, sinf(angle), cosf(angle));
+    emitter.Position = Vec(0.0f, 2.0f * sinf(angle), 2.0f * cosf(angle));
     // emitter.Position = VectorAdd(emitter.Position, kVectorTranslations[1]);
     emitter.Velocity = zeroVec;
     emitter.pCone = nullptr;
@@ -356,35 +356,52 @@ int main(int argc, char* argv[])
     // dump_EMITTER(&emitter);
 
     X3DAUDIO_DSP_SETTINGS xsettings = create_DSP_SETTINGS(nEmitterChannels, nOutputChannels);
+    F3DAUDIO_DSP_SETTINGS fsettings;
+    memcpy(&fsettings, &xsettings, sizeof(fsettings));
+
+    // TODO add that to test suite
+    // X3DAudioCalculate(xinstance, &listener, &emitter, F3DAUDIO_CALCULATE_EMITTER_ANGLE, &xsettings);
     // dump_DSP_settings(&xsettings);
 
-    // X3DAudioCalculate(xinstance, &listener, &emitter, flags, &xsettings);
+    // F3DAudioCalculate(finstance, CAST(const F3DAUDIO_LISTENER*, &listener), CAST(const F3DAUDIO_EMITTER*, &emitter), F3DAUDIO_CALCULATE_EMITTER_ANGLE, CAST(F3DAUDIO_DSP_SETTINGS *, &xsettings));
     // dump_DSP_settings(&xsettings);
 
     // float ar[] = {1.0f, 2.0f, 0.1f, 0.2f};
     // dump_values("values.txt", ar, 2, 2);
 
+    float inner_half_angle = PI / 8.0f;
+    float outer_half_angle = PI * 1.0 / 4.0f;
 
-    X3DAUDIO_CONE cone = create_CONE(PI / 1.0f, PI / 0.5f, 1.0, 0.0);
+    X3DAUDIO_CONE cone = create_CONE(2 * inner_half_angle, 2 * outer_half_angle, 2.0f, 1.0f);
     listener.pCone = &cone;
 
-    int n_samples = 11;
-    float start_angle = PI / 2.0f;
-    float end_angle = PI / 1.0f;
-    float* vals = new float[n_samples * 3];
+    emitter.Position = Vec(0.0f, 0.0f, -1e-7f);
+    X3DAudioCalculate(xinstance, &listener, &emitter, flags, &xsettings);
 
-    dump_CONE(&cone);
+    dump_DSP_settings(&xsettings);
+
+    const int n_rows = 4;
+    const int n_samples = 101;
+    float start_angle = 0.0f;
+    float end_angle = PI / 2.0f;
+    float* vals = new float[n_samples * n_rows];
+
+    // dump_CONE(&cone);
+
     for (int i = 0; i < n_samples; ++i) {
         float alpha = (1.0f * i) / (n_samples - 1);
         angle = lerp(alpha, start_angle, end_angle);
-
-        emitter.Position = Vec(0.0f, sinf(angle), cosf(angle));
-        X3DAudioCalculate(xinstance, &listener, &emitter, flags, &xsettings);
-
+        emitter.Position = Vec(0.0f, 2.0f * sinf(angle), 2.0f * cosf(angle));
         vals[i] = angle / (2.0f * PI);
+
+        X3DAudioCalculate(xinstance, &listener, &emitter, flags, &xsettings);
         vals[n_samples + i] = xsettings.pMatrixCoefficients[0];
-        vals[n_samples*2 + i] = lerp(alpha, 1.0f, 0.0f);
-        dump_values("../values.txt", vals, 3, n_samples);
+
+        F3DAudioCalculate(finstance, CAST(const F3DAUDIO_LISTENER*, &listener), CAST(const F3DAUDIO_EMITTER*, &emitter), flags, &fsettings);
+        vals[n_samples*2 + i] = fsettings.pMatrixCoefficients[0];
+
+        // vals[n_samples*3 + i] = lerp(alpha, 1.0f, 0.0f);
+        dump_values("../values.txt", vals, n_rows, n_samples);
         // fflush(stderr);
         // fflush(stdout);
         // if ((i % 10 == 0)) {
