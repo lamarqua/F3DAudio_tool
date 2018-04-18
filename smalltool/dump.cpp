@@ -76,33 +76,69 @@ void dump_CONE(X3DAUDIO_CONE* cone) {
 //    FLOAT32 InnerLPF;    // LPF (both direct and reverb paths) coefficient subtrahend on/within inner cone, used only for LPF (both direct and reverb paths) calculations, must be within [0.0f, 1.0f] when used
 //    FLOAT32 OuterLPF;    // LPF (both direct and reverb paths) coefficient subtrahend on/beyond outer cone, used only for LPF (both direct and reverb paths) calculations, must be within [0.0f, 1.0f] when used
 //    FLOAT32 InnerReverb; // reverb send level scaler on/within inner cone, used only for reverb calculations, must be within [0.0f, 2.0f] when used
-//    FLOAT32 OuterReverb; // reverb send level scaler on/beyond outer cone, 
+//    FLOAT32 OuterReverb; // reverb send level scaler on/beyond outer cone,
 }
 
 void dump_CURVE(X3DAUDIO_DISTANCE_CURVE* curve) {
     printf("[ ");
     for (UINT32 i = 0; i < curve->PointCount; ++i) {
         printf("%f\t", curve->pPoints[i].Distance);
-    }    
+    }
     for (UINT32 i = 0; i < curve->PointCount; ++i) {
         printf("%f\t", curve->pPoints[i].DSPSetting);
-    }    
+    }
     printf("]\n");
 // X3DAUDIO_DISTANCE_CURVE_POINT* pPoints;    // distance curve point array, must have at least PointCount elements with no duplicates and be sorted in ascending order with respect to Distance
 // UINT32                         PointCount; // number of distance curve points, must be >= 2 as all distance curves must have at least two endpoints, defining DSP settings at 0.0f and 1.0f normalized distance
 }
 
-void dump_MATRIX(FLOAT32* matrix, UINT32 SrcChannelCount, UINT32 DstChannelCount) {
-    for (UINT32 i = 0; i < SrcChannelCount; ++i) {
+const char* kChannelsMono[] = { "C " };
+const char* kChannelsStereo[] = { "L ", "R " };
+const char* kChannels2Point1[] = { "L ", "R ", "LF" };
+const char* kChannelsSurround[] = { "L ", "R ", "C ", "BC" };
+const char* kChannelsQuad[] = { "L ", "R ", "BL", "BR" };
+const char* kChannels4Point1[] = { "L ", "R ", "LF", "BL", "BR" };
+const char* kChannels5Point1[] = { "L ", "R ", "C ", "LF", "BL", "BR" };
+const char* kChannels7Point1[] = { "L ", "R ", "C ", "LF", "BL", "BR", "LC", "RC" };
+const char* kChannels5Point1Surround[] = { "L ", "R ", "C ", "LF", "SL" , "SR" };
+const char* kChannels7Point1Surround[] = { "L ", "R ", "C ", "LF", "BL", "BR", "SL" , "SR" };
+
+const char** kChannelSpeakerDescs[] = {
+    kChannelsMono,
+    kChannelsStereo,
+    kChannels2Point1,
+    kChannelsSurround,
+    kChannelsQuad,
+    kChannels4Point1,
+    kChannels5Point1,
+    kChannels7Point1,
+    kChannels5Point1Surround,
+    kChannels7Point1Surround,
+};
+
+void dump_MATRIX(FLOAT32* matrix, UINT32 SrcChannelCount, UINT32 DstChannelCount, uint32_t ChannelConfig = -1) {
+
+    // for (UINT32 i = 0; i < SrcChannelCount; ++i) {
+    //     printf("[ ");
+    //     for (UINT32 j = 0; j < DstChannelCount; ++j) {
+    //         printf("%f ", matrix[SrcChannelCount * j + i]);
+    //     }
+    //     printf("]\n");
+    // }
+
+    for (UINT32 row = 0; row < DstChannelCount; ++row) {
+        if (ChannelConfig != -1) {
+            printf("%s ", kChannelSpeakerDescs[ChannelConfig][row]);
+        }
         printf("[ ");
-        for (UINT32 j = 0; j < DstChannelCount; ++j) {
-            printf("%f ", matrix[SrcChannelCount * j + i]);
+        for (UINT32 col = 0; col < SrcChannelCount; ++col) {
+            printf("%f\t", matrix[SrcChannelCount * row + col]);
         }
         printf("]\n");
     }
 }
 
-void dump_DSP_settings(X3DAUDIO_DSP_SETTINGS* settings) {
+void dump_DSP_settings(X3DAUDIO_DSP_SETTINGS* settings, uint32_t ChannelConfig = -1) {
 //    FLOAT32* pMatrixCoefficients; // [inout] matrix coefficient table, receives an array representing the volume level used to send from source channel S to destination channel D, stored as pMatrixCoefficients[SrcChannelCount * D + S], must have at least SrcChannelCount*DstChannelCount elements
 //    FLOAT32* pDelayTimes;         // [inout] delay time array, receives delays for each destination channel in milliseconds, must have at least DstChannelCount elements (stereo final mix only)
 //    UINT32 SrcChannelCount;       // [in] number of source channels, must equal number of channels in respective emitter
@@ -125,7 +161,11 @@ void dump_DSP_settings(X3DAUDIO_DSP_SETTINGS* settings) {
 
     if (settings->pMatrixCoefficients) {
         printf("Matrix coefficients:\n");
-        dump_MATRIX(settings->pMatrixCoefficients, SrcChannelCount, DstChannelCount);
+
+        if (ChannelConfig != -1) {
+            printf("%s\n", kChannelConfigs[ChannelConfig].ChannelConfigName);
+        }
+        dump_MATRIX(settings->pMatrixCoefficients, SrcChannelCount, DstChannelCount, ChannelConfig);
     } else {
         printf("Matrix coefficients: (NULL)\n");
     }

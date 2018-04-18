@@ -23,7 +23,6 @@ static float Distance(X3DAUDIO_VECTOR a, X3DAUDIO_VECTOR b) {
 }
 
 
-
 static F3DAUDIO_VECTOR VecF(float x, float y, float z) {
     return F3DAUDIO_VECTOR{x, y, z};
 }
@@ -47,3 +46,15 @@ static float VectorLengthF(F3DAUDIO_VECTOR v) {
 static float FDistanceF(F3DAUDIO_VECTOR a, F3DAUDIO_VECTOR b) {
     return VectorLengthF(VectorSubF(a, b));
 }
+
+
+X3DAUDIO_VECTOR bX = Vec(1.0f, 0.0f, 0.0f);
+X3DAUDIO_VECTOR bY = Vec(0.0f, 1.0f, 0.0f);
+X3DAUDIO_VECTOR bZ = Vec(0.0f, 0.0f, 1.0f);
+X3DAUDIO_VECTOR zeroVec = Vec(0.0f, 0.0f, 0.0f);
+
+F3DAUDIO_VECTOR bXF = VecF(1.0f, 0.0f, 0.0f);
+F3DAUDIO_VECTOR bYF = VecF(0.0f, 1.0f, 0.0f);
+F3DAUDIO_VECTOR bZF = VecF(0.0f, 0.0f, 1.0f);
+F3DAUDIO_VECTOR zeroVecF = VecF(0.0f, 0.0f, 0.0f);
+
