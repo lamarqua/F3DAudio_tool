@@ -70,15 +70,15 @@ void re_instance_data()
 
     // printf("%X\n\n", SPEAKER_5POINT1 & SPEAKER_5POINT1_SURROUND & SPEAKER_7POINT1_SURROUND & SPEAKER_7POINT1 & ~SPEAKER_2POINT1 & ~SPEAKER_4POINT1);
 
-    // for (size_t i = 0; i < ARRAY_COUNT(kChannelConfigs); ++i) {
-    //  DWORD dwChannelMask = kChannelConfigs[i].channelMask;
-    //  X3DAudioInitialize(dwChannelMask, X3DAUDIO_SPEED_OF_SOUND, inst);
-    //  // printf("%08X\n", dwChannelMask);
-    //  // dump_bytes(&inst, sizeof(inst));
-    //  printf("%s, %d, ", kChannelConfigs[i].ChannelConfigName,
-    //     (kChannelConfigs[i].channelMask & SPEAKER_LOW_FREQUENCY) ? 2 : 0);
-    //  dump_mask_fields(&inst);
-    // }
+    for (size_t i = 0; i < ARRAY_COUNT(kChannelConfigs); ++i) {
+     DWORD dwChannelMask = kChannelConfigs[i].channelMask;
+     X3DAudioInitialize(dwChannelMask, X3DAUDIO_SPEED_OF_SOUND, inst);
+     // printf("%08X\n", dwChannelMask);
+     // dump_bytes(&inst, sizeof(inst));
+     // printf("%s, %d, ", kChannelConfigs[i].ChannelConfigName, (kChannelConfigs[i].channelMask & SPEAKER_LOW_FREQUENCY) ? 2 : 0);
+     printf("%s,  ", kChannelConfigs[i].ChannelConfigName);
+     dump_mask_fields(&inst);
+    }
 
     nl();
 
@@ -154,6 +154,8 @@ void test_checks()
     CHECK_FAIL(F3DAudioCheckCalculateParams(finstance, &listener, &emitter, Flags, &fsettings));
     fsettings.pMatrixCoefficients = old_matrix;
 
+
+    // TODO: F3DAUDIO_CALCULATE_ZEROCENTER
 
 #define CHECK_FAIL_USUAL_PARAMS() CHECK_FAIL(F3DAudioCheckCalculateParams(finstance, &listener, &emitter, Flags, &fsettings))
 #define CHECK_OK_USUAL_PARAMS() CHECK_OK(F3DAudioCheckCalculateParams(finstance, &listener, &emitter, Flags, &fsettings))
@@ -441,9 +443,13 @@ int main(int argc, char* argv[])
         emitter.pVolumeCurve = nullptr;
     }
     dump_values("../curve_vals.txt", vals, n_rows, n_samples);
+    delete[](vals);
 
 
-    cur_config = CONFIG_7POINT1;
+
+
+
+    cur_config = CONFIG_5POINT1;
     nOutputChannels = kChannelConfigs[cur_config].nChannels;
     channelMask = kChannelConfigs[cur_config].channelMask;
 
@@ -452,10 +458,25 @@ int main(int argc, char* argv[])
     F3DAudioInitialize(channelMask, X3DAUDIO_SPEED_OF_SOUND, finstance);
 
 
+    // zero pos...
+    listener = create_DEFAULT_LISTENER();
+    emitter = create_DEFAULT_EMITTER();
+    float smol_radius;
+    smol_radius = 4e-7f;
+    angle = PI / 8.0f;
+    emitter.Position = Vec(smol_radius * sin(angle), 0.0f, smol_radius * cos(angle));
+    // emitter.Position = Vec(0.0f, 0.0f, 1.0f);
+    xsettings = create_DSP_SETTINGS(1, nOutputChannels);
+    X3DAudioCalculate(xinstance, &listener, &emitter, F3DAUDIO_CALCULATE_EMITTER_ANGLE | F3DAUDIO_CALCULATE_MATRIX | F3DAUDIO_CALCULATE_DOPPLER, &xsettings);
+    dump_DSP_settings(&xsettings, cur_config);
+
+
+
     listener = create_DEFAULT_LISTENER();
     emitter = create_DEFAULT_EMITTER();
 
     // listener.OrientTop = bX;
+
     // float kChannelAzimuths[] = { 0.0f, PI / 2.0f };
     // nEmitterChannels = ARRAY_COUNT(kChannelAzimuths);
     emitter.ChannelCount = nEmitterChannels;
@@ -467,15 +488,51 @@ int main(int argc, char* argv[])
     xsettings = create_DSP_SETTINGS(nEmitterChannels, nOutputChannels);
     fsettings = create_DSP_SETTINGS_F(nEmitterChannels, nOutputChannels);
 
+
+    float kStartAngles[] = { 0.0f, PI/4.0f };
+    float kEndAngles[] = { PI/4.0f, 3.0f*PI/4.0f };
+    int kIndexOfInterest[] = { 1, 5 };
+    n_samples = 101;
+    n_rows = ARRAY_COUNT(kStartAngles) + 1;
+    vals = new float[n_samples * n_rows];
+
+    for (int cur_row = 1; cur_row - 1 < ARRAY_COUNT(kStartAngles); ++cur_row) {
+        start_angle = kStartAngles[cur_row - 1];
+        end_angle = kEndAngles[cur_row - 1];
+        for (int i = 0; i < n_samples; ++i) {
+            float alpha = (1.0f * i) / (n_samples - 1);
+            angle = lerp(alpha, start_angle, end_angle);
+            vals[i] = alpha; //(angle - start_angle) / (end_angle - start_angle);
+            emitter.Position = Vec(sinf(angle), 0.0f, cosf(angle));
+            X3DAudioCalculate(xinstance, &listener, &emitter, flags, &xsettings);
+            float v0 = xsettings.pMatrixCoefficients[kIndexOfInterest[cur_row - 1]];
+            vals[n_samples*cur_row + i] = v0;
+            // X3DAUDIO_VECTOR x = VectorSub(emitter.Position, listener.Position);
+            // X3DAUDIO_VECTOR p0 = Vec(sinf(start_angle), 0.0f, cosf(start_angle));
+            // X3DAUDIO_VECTOR p1 = Vec(sinf(end_angle), 0.0f, cosf(end_angle));
+            // float dot = VectorDot(x, p1);
+            // vals[n_samples*2 + i] = acosf(dot) / (end_angle - start_angle);
+
+            // vals[n_samples* 2 + i] = xsettings.pMatrixCoefficients[1];
+        }
+    }
+    dump_values("../diffuse_vals2.txt", vals, n_rows, n_samples);
+    delete[](vals);
+
+
+    start_angle = 0.0f;
+    end_angle = 3*PI / 4.0f;
+
     n_samples = 8;
+    // flags = X3DAUDIO_CALCULATE_ZEROCENTER;
     for (int i = 0; i <= n_samples; ++i) {
-        angle = i * PI / n_samples;
+        float alpha = 1.0f * i / n_samples;
+        angle = lerp(alpha, start_angle, end_angle);
         emitter.Position = Vec(sinf(angle), 0.0f, cosf(angle));
         X3DAudioCalculate(xinstance, &listener, &emitter, flags, &xsettings);
         // dump_DSP_settings(&xsettings, cur_config);
-        printf("Angle: %d / %d PI\n", i, n_samples);
-        dump_MATRIX(xsettings.pMatrixCoefficients, xsettings.SrcChannelCount, xsettings.DstChannelCount, cur_config);
+        // printf("Angle: %d / %d PI\n", i, n_samples);
+        // dump_MATRIX(xsettings.pMatrixCoefficients, xsettings.SrcChannelCount, xsettings.DstChannelCount, cur_config);
     }
-
 }
 

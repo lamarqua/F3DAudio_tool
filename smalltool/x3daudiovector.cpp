@@ -18,6 +18,10 @@ static float VectorLength(X3DAUDIO_VECTOR v) {
     return sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
 }
 
+static float VectorDot(X3DAUDIO_VECTOR u, X3DAUDIO_VECTOR v) {
+	return u.x*v.x + u.y*v.y + u.z*v.z;
+}
+
 static float Distance(X3DAUDIO_VECTOR a, X3DAUDIO_VECTOR b) {
     return VectorLength(VectorSub(a, b));
 }
