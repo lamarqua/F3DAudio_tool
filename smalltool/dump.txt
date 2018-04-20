@@ -1,0 +1,356 @@
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.500000   ]
+R  [ 0.500000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 1.000000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.250000   ]
+R  [ 0.750000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.875000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 1.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.750000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 0.750000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.250000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.625000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 0.500000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.500000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.500000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 0.250000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.750000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.375000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 1.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.250000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.250000   ]
+BR [ 0.750000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.125000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.500000   ]
+BR [ 0.500000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.000000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.750000   ]
+BR [ 0.250000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.125000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.000000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 1.000000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.250000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.250000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.750000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.375000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.500000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.500000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.500000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.750000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.250000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.625000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 1.000000   ]
+R  [ 0.000000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.750000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.750000   ]
+R  [ 0.250000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 0.875000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0
+
+        Dumping X3DAUDIO_DSP_SETTINGS
+SrcChannelCount: 1
+DstChannelCount: 6
+Matrix coefficients:
+SPEAKER_5POINT1
+L  [ 0.500000   ]
+R  [ 0.500000   ]
+C  [ 0.000000   ]
+LF [ 0.000000   ]
+BL [ 0.000000   ]
+BR [ 0.000000   ]
+Delay times: (NULL)
+LPFDirectCoefficient: 0.000000
+LPFReverbCoefficient: 0.000000
+ReverbLevel: 0.000000
+DopplerFactor: 1.000000
+EmitterToListenerAngle: 1.000000 PI
+EmitterToListenerDistance: 1
+EmitterVelocityComponent: 0
+ListenerVelocityComponent: 0

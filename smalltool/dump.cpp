@@ -184,9 +184,9 @@ void dump_DSP_settings(X3DAUDIO_DSP_SETTINGS* settings, uint32_t ChannelConfig =
     printf("ReverbLevel: %f\n", settings->ReverbLevel);
     printf("DopplerFactor: %f\n", settings->DopplerFactor);
     printf("EmitterToListenerAngle: %f PI\n", settings->EmitterToListenerAngle / X3DAUDIO_PI);
-    printf("EmitterToListenerDistance: %f\n", settings->EmitterToListenerDistance);
-    printf("EmitterVelocityComponent: %f\n", settings->EmitterVelocityComponent);
-    printf("ListenerVelocityComponent: %f\n", settings->ListenerVelocityComponent);
+    printf("EmitterToListenerDistance: %g\n", settings->EmitterToListenerDistance);
+    printf("EmitterVelocityComponent: %g\n", settings->EmitterVelocityComponent);
+    printf("ListenerVelocityComponent: %g\n", settings->ListenerVelocityComponent);
     nl();
 }
 
