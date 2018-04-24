@@ -57,6 +57,10 @@ void dump_VECTOR(X3DAUDIO_VECTOR vector) {
 }
 
 void dump_CONE(X3DAUDIO_CONE* cone) {
+    if (!cone) {
+        printf("Dumping cone: (NULL)\n");
+        return;
+    }
     printf("Dumping cone:\n");
     printf("InnerAngle: %f PI\n", cone->InnerAngle / X3DAUDIO_PI);
     printf("OuterAngle: %f PI\n", cone->OuterAngle / X3DAUDIO_PI);
@@ -80,6 +84,10 @@ void dump_CONE(X3DAUDIO_CONE* cone) {
 }
 
 void dump_CURVE(X3DAUDIO_DISTANCE_CURVE* curve) {
+    if (!curve) {
+        printf("(NULL)");
+        return;
+    }
     printf("[ ");
     for (UINT32 i = 0; i < curve->PointCount; ++i) {
         printf("%f\t", curve->pPoints[i].Distance);
@@ -218,6 +226,8 @@ void dump_EMITTER(X3DAUDIO_EMITTER* emitter) {
             printf("%f ", emitter->pChannelAzimuths[i]);
         }
         printf("]\n");
+    } else {
+        printf("ChannelAzimuths: (NULL)\n");
     }
 
     dump_CONE(emitter->pCone);
