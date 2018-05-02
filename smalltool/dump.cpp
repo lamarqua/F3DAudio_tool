@@ -90,9 +90,7 @@ void dump_CURVE(X3DAUDIO_DISTANCE_CURVE* curve) {
     }
     printf("[ ");
     for (UINT32 i = 0; i < curve->PointCount; ++i) {
-        printf("%f\t", curve->pPoints[i].Distance);
-    }
-    for (UINT32 i = 0; i < curve->PointCount; ++i) {
+        printf("%f : ", curve->pPoints[i].Distance);
         printf("%f\t", curve->pPoints[i].DSPSetting);
     }
     printf("]\n");
