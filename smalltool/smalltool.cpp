@@ -561,7 +561,7 @@ int main(int argc, char* argv[])
     float radius;
     radius = 1.0f;
     // angle = PI * 6.0f / 8.0f;
-    flags = F3DAUDIO_CALCULATE_EMITTER_ANGLE | F3DAUDIO_CALCULATE_MATRIX | F3DAUDIO_CALCULATE_DOPPLER;
+    flags = F3DAUDIO_CALCULATE_MATRIX; // | F3DAUDIO_CALCULATE_DOPPLER | F3DAUDIO_CALCULATE_EMITTER_ANGLE;
     flags |= F3DAUDIO_CALCULATE_ZEROCENTER;
     for (int i = 0; i <= 16; ++i) {
         angle = PI * i / 8.0f;
@@ -884,17 +884,48 @@ int main(int argc, char* argv[])
     listener = create_DEFAULT_LISTENER();
     emitter = create_DEFAULT_EMITTER();
 
-    float kChannelAzimuths3[] = { X3DAUDIO_2PI, 0.0f, X3DAUDIO_PI / 2.0f, X3DAUDIO_PI, };
+    // listener.Position = Vec(-0.5f, 0.5f, 0.3f);
+    listener.OrientTop = Vec(1.0f, 0.0f, 0.0f);
+    listener.OrientFront = Vec(0.0f, -1.0f, 0.0f);
+
+    inner_half_angle = 0.0f;
+    outer_half_angle = 0.0f;
+    cone = create_CONE(2 * inner_half_angle, 2 * outer_half_angle, 2.0f, 0.5f);
+    listener.pCone = &cone;
+
+    X3DAUDIO_CONE cone2 = create_CONE(2.0f/8*PI, 2.0f/8*PI, 0.9f, 0.6f);
+    emitter.pCone = &cone2;
+
+    float kChannelAzimuths3[] = { X3DAUDIO_2PI, 0.0f, 0.01f, 02.12f, X3DAUDIO_PI / 2.0f, X3DAUDIO_PI, };
     nEmitterChannels = ARRAY_COUNT(kChannelAzimuths3);
     // nEmitterChannels = 1;
 
     xsettings = create_DSP_SETTINGS(nEmitterChannels, nOutputChannels);
     fsettings = create_DSP_SETTINGS_F(nEmitterChannels, nOutputChannels);
 
+
+    xsettings.LPFDirectCoefficient = 0.7f;
+    xsettings.LPFReverbCoefficient = 0.7f;
+    xsettings.ReverbLevel = 0.7f;
+
+    fsettings.LPFDirectCoefficient = xsettings.LPFDirectCoefficient;
+    fsettings.LPFReverbCoefficient = xsettings.LPFReverbCoefficient;
+    fsettings.ReverbLevel = xsettings.ReverbLevel;
+
     flags =  X3DAUDIO_CALCULATE_MATRIX;
-    radius = 10.0f;
-    angle = 0.0f;
-    elevation = 0.0f;
+    // flags |= F3DAUDIO_CALCULATE_DELAY;
+    flags |= X3DAUDIO_CALCULATE_LPF_DIRECT;
+    flags |= X3DAUDIO_CALCULATE_LPF_REVERB;
+    flags |= X3DAUDIO_CALCULATE_REVERB;
+    flags |= X3DAUDIO_CALCULATE_DOPPLER;
+    flags |= F3DAUDIO_CALCULATE_EMITTER_ANGLE;
+
+    listener.Velocity = Vec(0.0f, 50.0f, 0.0f);
+    emitter.Velocity = Vec(10.0f, -10.0f, 0.0f);
+
+    radius = 1.1;
+    angle = PI/8;
+    elevation = 10.0f;
     emitter.Position = Vec(radius * sin(angle), elevation, radius * cos(angle));
 
     emitter.InnerRadius = 0.0f;
@@ -903,7 +934,7 @@ int main(int argc, char* argv[])
     emitter.OrientFront = Vec(0.0f, 0.0f, -1.0f);
     emitter.OrientTop = Vec(0.0f, 1.0f, 0.0f);
     emitter.ChannelCount = nEmitterChannels;
-    emitter.ChannelRadius = 0.5f;
+    emitter.ChannelRadius = 10.0f;
     emitter.pChannelAzimuths = kChannelAzimuths3;
 
     // X3DAUDIO_DISTANCE_CURVE_POINT points2[] = { {0.0f, 0.8f}, {0.5, 0.9f}, {1.0f, 0.5f} };
@@ -912,7 +943,7 @@ int main(int argc, char* argv[])
     // emitter.pVolumeCurve = &curve2;
     // emitter.pLFECurve = &curve2;
 
-    // dump_EMITTER(&emitter);
+    dump_EMITTER(&emitter);
     X3DAudioCalculate(xinstance, &listener, &emitter, flags, &xsettings);
     dump_DSP_settings(CAST(X3DAUDIO_DSP_SETTINGS*, &xsettings), cur_config);
 
